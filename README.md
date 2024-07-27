@@ -9,6 +9,7 @@ This project describes the basic hardware and code to fully operate a trapped io
 - Plenty of DIO/TTL channels for additional on/off control for pulse sequences
 - Analog inputs and various other features on the Arduino are generally available
 - Broad scans over cooling transition, calibration for uniform optical power vs frequency, rf tickle experiments to find secular mode frequencies, clock transition frequency scans, Rabi flopping, clock-style two point probes.
+- Simple control via serial communications (For example via Jupyter Notebook etc.), and Arduino code can be extended for customizable functionality.
 
 ## Limitations:
 - In the current implementation, the min frequency resolution is 1Hz.
