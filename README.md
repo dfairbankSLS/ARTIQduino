@@ -20,11 +20,11 @@ This project describes the basic hardware and code to fully operate a trapped io
   **Suitable RF Amp, WYDZ-PM-1M-750MHz-3W** https://www.ebay.com/itm/364304389209, consider getting one or two extra in case one gets toasted.
 - PMT counting is limited by Arduino clock speed, can't be faster than 1/4 of the 16MHz ardunio clock speed. So, if you have pulses coming in faster than 1/(4MHz) = 250ns you will miss some counts. This typically isn't a problem since in say a 250us detection pulse maybe you're expecting something like 10 counts (only 4kHz on average).
 
-## Additional Hardware Required:
+## Additional Hardware:
 - One ion trap and associated lasers and vacuum hardware.
 - A arduinoMega screw terminal breakout board is helpful to make additional DIO/analog connections (~$10 on Amazon).
 - For ultra-stable clock laser and any accessory lasers (cooling, repump, clearout, ablation etc.) feel free to contact us at SLS (https://stablelasers.com/contact/, dfairbank@stablelasers.com). We have experience with ion traps and associated lasers (especially for Be+, Ca+, Sr+).
-- If you're looking to take the performance the next level but maintain an intuitive and simple serial interface, we have in development a professional grade rack mount electronic box for pulse sequence generation and ion trap control / automation. One notable feature is amplified DDS output with convenient amplitude control like the AD9910 but frequency resolution which can match the AD9912.
+- We also have separate professional grade pulse generation and ion trap control and automation electronics in development (not using the Arduino or AD9959 shield), please inquire for details.
 
 ## Other notes:
 - The amplitude modulation is applied to the DDS simply by toggling digital pins on the Arduino Mega which are connected to DDS pins P0,P1,P2,P3. This switches between whatever amplitude is set in two different amplitde registers(so I typically have one register set to zero amplitude and the other to whatever amplitude I need to drive the AOM at, for on/off behavior). This makes it extremely easy to program.
@@ -35,10 +35,10 @@ This project describes the basic hardware and code to fully operate a trapped io
 Simple USB serial interface (Python, Jupyter Notebook, etc.)
 ![Interface](https://github.com/user-attachments/assets/9bdf5700-b32c-455a-bd56-039009737e5f)
 
-Ten consecutive pulse sequences
+Ten consecutive cool and detect pulse sequences
 ![10 Pulses](https://github.com/user-attachments/assets/f8fd1a68-4909-46f5-9ced-7af050718a18)
 
-Example clock pulse sequence
+Example clock pulse sequence with IR repump AOM channel.
 ![Clock Probe](https://github.com/user-attachments/assets/58885b00-1e2d-4020-bbfb-9b81d31cb006)
 
 Scan over dipole allowed cooling transition
