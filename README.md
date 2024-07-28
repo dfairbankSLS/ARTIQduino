@@ -1,5 +1,5 @@
 # ARTIQduino
-This project describes the basic hardware and code to fully operate a trapped ion optical clock using an Arduino Mega. It is based on the gra-afch AD9959 shield. We jokingly started referring to it as "ARTIQ"-duino as it can perform similar tasks as the popular ARTIQ platform, but with a price tag under $300. Note that this has no afliliation with the professional grade ARTIQ plaform, I developed and tested this as a side project while as a graduate student at Colorado State University and then later at Stable Laser Systems.
+This project describes the basic hardware and code to operate a trapped ion optical clock using an Arduino Mega. It is based on the gra-afch AD9959 shield. We jokingly started referring to it as "ARTIQ"-duino as it can perform similar tasks as the popular ARTIQ platform, but with a price tag under $300. Note that this has no afliliation with the professional grade ARTIQ plaform, I developed and tested this as a side project while as a graduate student at Colorado State University and then later at Stable Laser Systems.
 
 **Link to AD9959 Shield:** https://gra-afch.com/catalog/rf-units/dds-ad9959-arduino-shield-rf-signal-generator-600-mhz-1-5-ghz-core-clock-low-spurs-low-harmonic/
 
@@ -27,7 +27,7 @@ This project describes the basic hardware and code to fully operate a trapped io
 - We also have separate professional grade pulse generation and ion trap control and automation electronics in development (not using the Arduino or AD9959 shield), please inquire for details.
 
 ## Other notes:
-- The amplitude modulation is applied to the DDS simply by toggling digital pins on the Arduino Mega which are connected to DDS pins P0,P1,P2,P3. This switches between whatever amplitude is set in two different amplitde registers(so I typically have one register set to zero amplitude and the other to whatever amplitude I need to drive the AOM at, for on/off behavior). This makes it extremely easy to program.
+- The amplitude modulation is applied to the DDS simply by toggling digital pins on the Arduino Mega which are connected to DDS pins P0,P1,P2,P3. When configured for two level amplitude modulation, each switches between whatever amplitude is set in two different amplitde registers for each separate channel (so I typically have one register set to zero amplitude and the other to whatever amplitude I need to drive the AOM at on a given channel). This pin toggling makes it extremely easy to program pulse sequences.
 - PMT counts are collected on ATMega2560 TCNT5 which is hardwired to ArduinoMega pin 47. All you have to do is clear TCNT5 prior to the detect pulse and read out after. There is no processing time or interrupts required.
 - Good luck and happy trapping!
 
