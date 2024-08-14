@@ -26,8 +26,42 @@ This project describes the basic hardware and code to operate a trapped ion opti
 - For ultra-stable clock laser and any accessory lasers (cooling, repump, clearout, ablation etc.) feel free to contact us at SLS (https://stablelasers.com/contact/, dfairbank@stablelasers.com). We have experience with ion traps and associated lasers (especially for Be+, Ca+, Sr+).
 - We also have separate professional grade pulse generation and ion trap control and automation electronics in development (not using the Arduino or AD9959 shield), please inquire for details.
 
+## Code Installation:
+- In general install the same way as instructed for the gra-afch shield, this code is just a modified version. Install Arduino IDE and copy the libraries into the libraries section of the installed Arduino directory. Note that the encoder library is modified from the normal so Arduino will complain. Mostly just need to install the Ardunio code, compile and upload to the ArduinoMega. The serial baud rate used here is 115200.
+  
+- There are two main code sections that have been adjusted DDS_firmware.ino and ReadSerialCommands.ino, so I will summarize the changes:
+  
+      -DDS_firware.ino changes:
+  1. The P0-P3 pins for modulation functions of the DDS are connected to pins 16,15,14,4 of the Arduino, respectively so these have been defined such that you can address the pins as "PO_PIN", "P1_PIN" etc. The hardware counter for PMT pulses is conencted to Ardino pin 47, so this is defined to address as "COUNTER_PIN".
+  2. InitCounter5() function has been added to initialize for counting pulses on TCNT5 of the DDS
+  3. enableAmplitudeModulation() function added to make sure the settings for two level amplitude modulation are set up. This function was added to the AD9959 library if you want to adjust or change it (and so also note AD9959 library has been modified from default downloaded from gra-afch, to have this function).
+  4. In setup the default on/off state for eeach channel when powering on is set. You can change this to whatever you prefer. Note that in this implementation 0 is ON and 1 is OFF for the DDS!
+     
+     ReadSerialCommands.ino
+ This library was completely rewritten to accept and parse serial commands of the form "command(arg0,arg1,arg2,...)". All the pulse sequencing etc. is programmed here. Basic list of commands:
+          "coolDetect(uint32_t detectFrequency, uint16_t detectAmp, uint32_t duration, uint16_t reps)\n"
+          "clockRabi(detFrq,detAmp,detDur,clkFrq,clkAmp,clkDur,spFrq,spAmp,spDur,reps)\n"
+          "setFD/ND(uint32_t frequency, int16_t amplitude_dBm, uint32_t duration)\n"
+          "setND_ASF(uint32_t frequency, int16_t amplitude, uint32_t duration)\n"
+          "setCL(uint32_t frequency, int16_t amplitude)\n"
+          "setIR(uint32_t frequency, int16_t amplitude)\n"
+          "setRP(off/on)\n"
+          "ablate(uint16_t reps)\n"
+          "on/off(Channel 0-3) turn on channel Px\n"
+          "saveToEEPROM() -- frequency and amplitude settings remain on power cycle \n"
+          "h — Help\n"
+
+One thing to be aware is the gra-afch code was set up to have the amplitude adjusted in dBm, but for faster operation I have in some cases switched to just setting in the 10bit (0-1023) format. The jupyter notebook code has functions to convert back aand forth from one to the other.
+
+## Hardware connections:
+- Far Detuned AOM I have on DDS channel 0
+- Near Detuned/Detect AOM on DDS channel 1
+- Clock AOM or rf-tickle I put on DDS channel 2
+- IR repump (ie for Ca+ or Sr+) I had on DDS channel 3
+- PMT should be connected to ArduinoMega pin 47
+
 ## Other notes:
-- The amplitude modulation is applied to the DDS simply by toggling digital pins on the Arduino Mega which are connected to DDS pins P0,P1,P2,P3. When configured for two level amplitude modulation, each switches between whatever amplitude is set in two different amplitde registers for each separate channel (so I typically have one register set to zero amplitude and the other to whatever amplitude I need to drive the AOM at on a given channel). This pin toggling makes it extremely easy to program pulse sequences.
+- The amplitude modulation is applied to the DDS simply by toggling digital pins on the Arduino Mega which are connected to DDS pins P0,P1,P2,P3. When configured for two level amplitude modulation, each switches between whatever amplitude is set in two different amplitde registers for each separate channel (so I typically have one register set to zero amplitude and the other to whatever amplitude I need to drive the AOM at on a given channel). This pin toeggling makes it extremely easy to program pulse sequences.
 - PMT counts are collected on ATMega2560 TCNT5 which is hardwired to ArduinoMega pin 47. All you have to do is clear TCNT5 prior to the detect pulse and read out after. There is no processing time or interrupts required.
 - Good luck and happy trapping!
 
