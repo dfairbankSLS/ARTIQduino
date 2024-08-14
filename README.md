@@ -36,20 +36,19 @@ DDS_firware.ino changes:
   2. InitCounter5() function has been added to initialize for counting pulses on TCNT5 of the DDS
   3. enableAmplitudeModulation() function added to make sure the settings for two level amplitude modulation are set up. This function was added to the AD9959 library if you want to adjust or change it (and so also note AD9959 library has been modified from default downloaded from gra-afch, to have this function).
   4. In setup the default on/off state for eeach channel when powering on is set. You can change this to whatever you prefer. Note that in this implementation 0 is ON and 1 is OFF for the DDS!
-     
+
 ReadSerialCommands.ino changes:
- This library was completely rewritten to accept and parse serial commands of the form "command(arg0,arg1,arg2,...)". All the pulse sequencing etc. is programmed here. Basic list of commands:
-          "coolDetect(uint32_t detectFrequency, uint16_t detectAmp, uint32_t duration, uint16_t reps)\n"
-          "clockRabi(detFrq,detAmp,detDur,clkFrq,clkAmp,clkDur,spFrq,spAmp,spDur,reps)\n"
-          "setFD/ND(uint32_t frequency, int16_t amplitude_dBm, uint32_t duration)\n"
-          "setND_ASF(uint32_t frequency, int16_t amplitude, uint32_t duration)\n"
-          "setCL(uint32_t frequency, int16_t amplitude)\n"
-          "setIR(uint32_t frequency, int16_t amplitude)\n"
-          "setRP(off/on)\n"
-          "ablate(uint16_t reps)\n"
-          "on/off(Channel 0-3) turn on channel Px\n"
-          "saveToEEPROM() -- frequency and amplitude settings remain on power cycle \n"
-          "h — Help\n"
+- This library was completely rewritten to accept and parse serial commands of the form "command(arg0,arg1,arg2,...)". All the pulse sequencing etc. is programmed here. Basic list of commands:
+- coolDetect(uint32_t detectFrequency, uint16_t detectAmp, uint32_t duration, uint16_t reps) do reps of coolDetect pulse sequence, returns average PMT counts detected
+- clockRabi(detFrq,detAmp,detDur,clkFrq,clkAmp,clkDur,spFrq,spAmp,spDur,reps) do a clock pulse sequence FD cool, ND cool, clock pulse then detect
+- setFD/ND(uint32_t frequency, int16_t amplitude_dBm, uint32_t duration) set the pulse parameters for far deturned or near detuned cooling in dBm
+- setND_ASF(uint32_t frequency, int16_t amplitude, uint32_t duration) set near detuned parameters, amplitude in ASF 0-1023
+- setCL(uint32_t frequency, int16_t amplitude) set clock channel default parameters (DDS channel 2)
+- setIR(uint32_t frequency, int16_t amplitude) set IR channel default parameters (DDS channel 3)
+- ablate(uint16_t reps) I used this to send TTL pulse for ablation loading on Arduino pin 49
+- on/off(Channel 0-3) turn on channel Px
+- saveToEEPROM() -- frequency and amplitude settings remain on power cycle
+- h — Help
 
 One thing to be aware is the gra-afch code was set up to have the amplitude adjusted in dBm, but for faster operation I have in some cases switched to just setting in the 10bit (0-1023) format. The jupyter notebook code has functions to convert back aand forth from one to the other.
 
