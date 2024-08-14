@@ -35,7 +35,7 @@ DDS_firware.ino changes:
   1. The P0-P3 pins for modulation functions of the DDS are connected to pins 16,15,14,4 of the Arduino, respectively so these have been defined such that you can address the pins as "PO_PIN", "P1_PIN" etc. The hardware counter for PMT pulses is conencted to Ardino pin 47, so this is defined to address as "COUNTER_PIN".
   2. InitCounter5() function has been added to initialize for counting pulses on TCNT5 of the DDS
   3. enableAmplitudeModulation() function added to make sure the settings for two level amplitude modulation are set up. This function was added to the AD9959 library if you want to adjust or change it (and so also note AD9959 library has been modified from default downloaded from gra-afch, to have this function).
-  4. In setup the default on/off state for eeach channel when powering on is set. You can change this to whatever you prefer. Note that in this implementation 0 is ON and 1 is OFF for the DDS!
+  4. In setup the default on/off state for each channel when powering on is set. You can change this to whatever you prefer. Note that in this implementation 0 is ON and 1 is OFF for the DDS!
 
 ReadSerialCommands.ino changes:
 - This library was completely rewritten to accept and parse serial commands of the form "command(arg0,arg1,arg2,...)". All the pulse sequencing etc. is programmed here. Basic list of commands:
