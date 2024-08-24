@@ -12,7 +12,7 @@ This project describes the basic hardware and code to operate a trapped ion opti
 - Simple control via serial communications (For example via Jupyter Notebook etc.), and Arduino code can be extended for customizable functionality.
 
 ## Limitations:
-- In the current implementation, the minimum DDS frequency resolution is 1Hz. The minimum pulse duration is 4us. Pulse duration can be set in 1us increments, but the pulse length is repeatable and precise. For shorter pulses one could imagine implementing the AD9959 using a microcontroller with faster clock, for example a Teensy.
+- In the current implementation, the minimum DDS frequency resolution is 1Hz. The minimum pulse duration is 4us. Pulse duration can be set in 1us increments, but the pulse length is repeatable and precise.
 - Assuming double pass AOM configuration, the max frequency shift you can apply is about 450MHz.
 - Typially a single AOM is used for both near-detuned cooling and detection, which requires adjusting the DDS frequency and amplitude between the two operations. The speed of this is limited by the Ardunio clock speed and currently takes about 100us. This is uniform between pulses and typically isn't an issue unless you have very high heating rates (such that that 100us delay would allow excessive heating).
 - The RF output power directly from the shield is only about -7dBm max, so you need about a 35dB RF amplifier for each AOM channel.
