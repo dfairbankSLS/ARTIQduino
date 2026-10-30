@@ -1,5 +1,5 @@
 # ARTIQduino
-This project describes the basic hardware and code to operate a trapped ion optical clock using an Arduino Mega. It is based on the gra-afch AD9959 shield. We jokingly started referring to it as "ARTIQ"-duino as it can perform similar tasks as the popular ARTIQ platform, but with a price tag under $300. Note that this has no afliliation with the professional grade ARTIQ plaform, I developed and tested this as a side project while as a graduate student at Colorado State University and then later at Stable Laser Systems.
+This project describes the basic hardware and code to operate a trapped ion optical clock using an Arduino Mega. It is based on the gra-afch AD9959 shield. We jokingly started referring to it as "ARTIQ"-duino as it can perform similar tasks as the popular ARTIQ platform, but with a price tag under $300. Note that this has no afliliation with the professional grade ARTIQ plaform, I developed and tested this as a side project while as a graduate student at Colorado State University.
 
 **Link to AD9959 Shield:** https://gra-afch.com/catalog/rf-units/dds-ad9959-arduino-shield-rf-signal-generator-600-mhz-1-5-ghz-core-clock-low-spurs-low-harmonic/
 
@@ -23,8 +23,6 @@ This project describes the basic hardware and code to operate a trapped ion opti
 ## Additional Hardware:
 - One ion trap and associated lasers and vacuum hardware.
 - A arduinoMega screw terminal breakout board is helpful to make additional DIO/analog connections (~$10 on Amazon).
-- For ultra-stable clock laser and any accessory lasers (cooling, repump, clearout, ablation etc.) feel free to contact us at SLS (https://stablelasers.com/contact/, dfairbank@stablelasers.com). We have experience with ion traps and associated lasers (especially for Be+, Ca+, Sr+).
-- We also have separate professional grade pulse generation and ion trap control and automation electronics in development (not using the Arduino or AD9959 shield), please inquire for details.
 
 ## Code Installation:
 - In general install the same way as instructed for the gra-afch shield, this code is just a modified version. Install Arduino IDE and copy the libraries into the libraries section of the installed Arduino directory. Note that the encoder library is modified from the normal so Arduino will complain. Mostly just need to install the Ardunio code, compile and upload to the ArduinoMega. The serial baud rate used here is 115200.
@@ -51,6 +49,8 @@ ReadSerialCommands.ino changes:
 - h — Help
 
 One thing to be aware is the gra-afch code was set up to have the amplitude adjusted in dBm, but for faster operation I have in some cases switched to just setting in the 10bit (0-1023) format. The jupyter notebook code has functions to convert back aand forth from one to the other.
+
+One extra note: in the Jupyter Notebook file the 'serial' library typically needs to be installed, but note it is the pyserial library even though it is imported as just 'serial' (pip install pyserial).
 
 ## Hardware connections:
 - Far Detuned AOM I have on DDS channel 0
